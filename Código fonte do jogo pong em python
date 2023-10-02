@@ -1,0 +1,118 @@
+# Biblioteca principal
+import turtle
+sc = turtle.Screen()
+sc.title("Ping Pong Game")
+sc.bgcolor("White")
+sc.setup(width= 1000, height= 600)
+
+#Raquete da esquerda
+left_pad = turtle.Turtle()
+left_pad.speed(0)
+left_pad.shape("square")
+left_pad.color("black")
+left_pad.shapesize(stretch_wid=6, stretch_len=2)
+left_pad.penup()
+left_pad.goto(-400, 0)
+
+# Raquete da direita
+right_pad = turtle.Turtle()
+right_pad.speed(0)
+right_pad.shape("square")
+right_pad.color("black")
+right_pad.shapesize(stretch_wid=6, stretch_len= 2)
+right_pad.penup()
+right_pad.goto(400, 0)
+
+#Variável da Bola
+hit_ball = turtle.Turtle()
+hit_ball.speed(40)
+hit_ball.shape("circle")
+hit_ball.color("blue")
+hit_ball.penup()
+hit_ball.goto(0, 0)
+hit_ball.dx = 5
+hit_ball.dy = -5
+
+#Jogador da esquerda e direita
+left_player = 0
+right_player = 0
+
+#Esboço para desenhar
+sketch = turtle.Turtle()
+sketch.speed(0)
+sketch.color("blue")
+sketch.penup()
+sketch.hideturtle()
+sketch.goto(0, 260)
+sketch.write(" Left_player : 0 Right_player : 0", align="center", font=("Courier", 24, "normal"))
+
+
+#4 funções para o jogo
+#Funcão para cima
+def paddleup():
+    y = left_pad.ycor()
+    y += 20
+    left_pad.sety(y)
+
+#Função para baixo
+def paddleadown():
+    y = left_pad.ycor()
+    y -= 20
+    y = left_pad.sety(y)
+
+#Função para cima raquete direita
+def paddlebup():
+    y = right_pad.ycor()
+    y += 20
+    y = right_pad.sety(y)
+
+#Função para baixo raquete direita
+def paddlebdown():
+    y = right_pad.ycor()
+    y -= 20
+    y = right_pad.sety(y)
+
+#Teclas que ativam o jogabilidade
+sc.listen()
+sc.onkeypress(paddleup, "e")
+sc.onkeypress(paddleadown, "x")
+sc.onkeypress(paddlebup, "Up")
+sc.onkeypress(paddlebdown, "Down")
+
+#Loop principal do jogo
+while True:
+    sc.update()
+
+    hit_ball.setx(hit_ball.xcor()+hit_ball.dx)
+    hit_ball.sety(hit_ball.ycor()+hit_ball.dy)
+
+    if hit_ball.ycor() > 280:
+        hit_ball.sety(280)
+        hit_ball *= -1
+
+    if hit_ball.ycor() < -280:
+        hit_ball.sety(-280)
+        hit_ball *= -1
+
+    if hit_ball.xcor() > 500:
+        hit_ball.goto(0, 0)
+        hit_ball.dy *= -1
+        left_player += 1
+        sketch.clear()
+        sketch.write("left_player : {}, Right_player : {}".format(left_player, right_player),
+                    align="center", font=("Courier", 24, "normal"))
+
+    if (hit_ball.xcor() > 360 and hit_ball.xcor() < 370 ) and \
+            (hit_ball.ycor() < right_pad.ycor()+40
+        and hit_ball.ycor() > right_pad.ycor() -40):
+        hit_ball.setx(360)
+        hit_ball.dx *= -1
+
+    if (hit_ball.ycor() <- 360 and hit_ball.xcor()>-370) and (hit_ball.ycor()<left_pad.ycor()+40 and
+                         hit_ball.ycor()<left_pad.ycor()-40):
+        hit_ball.setx(-360)
+        hit_ball.dx *= -1
+
+#Código com 5 IFs para fazer o loop
+#Código apresenta problemas com a parte de encerramento, 
+# não sei se é o loop ou outro delimitador, acho bom eu voltar para a base que é o curso
